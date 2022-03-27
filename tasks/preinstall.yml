@@ -1,12 +1,6 @@
 ---
-# Add systemd options
-- name: Assert usage of systemd as an init system
-  assert:
-    that: ansible_service_mgr == 'systemd'
-    msg: "This role only works with systemd"
-
 - name: Get systemd version
-  command: systemd --version
+  command: systemctl --version
   changed_when: false
   check_mode: false
   register: __systemd_version
@@ -15,93 +9,98 @@
   set_fact:
     victoriametrics_systemd_version: "{{ __systemd_version.stdout_lines[0].split(' ')[-1] }}"
 
-# Victoriametrics version
-- name: Check if VictoriaMetrics is installed
+- name: Check if VictoriaMetrics vmselect is installed
   stat:
-    path: /usr/local/bin/victoria-metrics-prod
+    path: /usr/local/bin/victoriametrics/vmselect-prod
   changed_when: false
   check_mode: false
-  register: victoriametrics_binary
+  register: victoriametrics_vmselect_is_installed
+  when: inventory_hostname in groups['vmselect']
 
-- name: Check current VictoriaMetrics version
-  command: /usr/local/bin/victoria-metrics-prod --version
+- name: Check if VictoriaMetrics vminsert is installed
+  stat:
+    path: /usr/local/bin/victoriametrics/vminsert-prod
+  changed_when: false
+  check_mode: false
+  register: victoriametrics_vminsert_is_installed
+  when: inventory_hostname in groups['vminsert']
+
+- name: Check if VictoriaMetrics vmstorage is installed
+  stat:
+    path: /usr/local/bin/victoriametrics/vmstorage-prod
+  changed_when: false
+  check_mode: false
+  register: victoriametrics_vmstorage_is_installed 
+  when: inventory_hostname in groups['vmstorage']
+
+- name: Check current VictoriaMetrics vmselect version
+  command: /usr/local/bin/victoriametrics/vmselect-prod -version
   changed_when: false
   failed_when: false
   check_mode: false
-  register: victoriametrics_installed_version
-  when: victoriametrics_binary.stat.exists
-
-- name: "DEBUG: show victoria metrics version"
-  debug:
-    msg: "{{ victoriametrics_installed_version.stdout }}"
+  register: victoriametrics_vmselect_current_version
   when:
-    - debug_exec
-    - victoriametrics_binary.stat.exists
+    - inventory_hostname in groups['vmselect']
+    - victoriametrics_vmselect_is_installed.stat.exists == True
 
-# Victoriametrics utils version
-- name: Check if vmutils are installed
-  stat:
-    path: /usr/local/bin/vmctl-prod
-  changed_when: false
-  check_mode: false
-  register: vmutils_binary
-
-- name: Check current vmutils version
-  command: /usr/local/bin/vmctl-prod --version
+- name: Check current VictoriaMetrics vminsert version
+  command: /usr/local/bin/victoriametrics/vminsert-prod -version
   changed_when: false
   failed_when: false
   check_mode: false
-  register: vmutils_installed_version
-  when: vmutils_binary.stat.exists
-
-- name: "DEBUG: show vmutils version"
-  debug:
-    msg: "{{ vmutils_installed_version.stdout }}"
+  register: victoriametrics_vminsert_current_version
   when:
-    - debug_exec
-    - vmutils_binary.stat.exists
+    - inventory_hostname in groups['vminsert']
+    - victoriametrics_vminsert_is_installed.stat.exists == True
 
-# Victoriametrics cluster version
-- name: Check if cluster role is installed
-  stat:
-    path: "/usr/local/bin/{{ item }}-prod"
-  changed_when: false
-  check_mode: false
-  register: cl_role_binary
-  with_items: "{{ victoriametrics_cluster_role }}"
-
-# - name: "DEBUG: show cluster role exists"
-#  debug:
-#    msg: "{{ cl_role_binary.results }}"
-#  when:
-#    - debug_exec
-
-- name: Check current role version
-  command: "/usr/local/bin/{{ item.item }}-prod --version"
+- name: Check current VictoriaMetrics vmstorage version
+  command: /usr/local/bin/victoriametrics/vmstorage-prod -version
   changed_when: false
   failed_when: false
   check_mode: false
-  register: cl_role_installed_version
-  with_items: "{{ cl_role_binary.results }}"
-  when: item.stat.exists
-
-- name: "DEBUG: show cluster role version"
-  debug:
-    msg: "{{ cl_role_installed_version.results | json_query('[*].stdout') }}"
+  register: victoriametrics_vmstorage_current_version
   when:
-    - debug_exec
+    - inventory_hostname in groups['vmstorage']
+    - victoriametrics_vmstorage_is_installed.stat.exists == True
 
-- name: "set version facts"
-  set_fact:
-    cluster_role_version: "{{ cl_role_installed_version.results | json_query('[*].stdout') }}"
+- name: Apply recommended sysctl settings
+  sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+    sysctl_file: /etc/sysctl.d/99-custom_tune.conf
+    reload: no
+    # ignoreerrors: yes
+  with_items: "{{ custom_sysctl }}"
+  when: custom_sysctl is defined
+  notify:
+    - reload sysctl.conf
 
-- name: "set exists facts"
-  set_fact:
-    cluster_binary_exists: true
-  when: cluster_role_version|length == 0
+- name: Create VictoriaMetrics system group
+  group:
+    name: "{{ victoriametrics_system_group }}"
+    state: present
+    system: true
+  when: victoriametrics_system_group != "root"
 
-- name: "DEBUG: show "
-  debug:
-    var: cluster_binary_exists
-  when:
-    - debug_exec
+- name: Create VictoriaMetrics system user
+  user:
+    name: "{{ victoriametrics_system_user }}"
+    groups: "{{ victoriametrics_system_group }}"
+    append: true
+    shell: /sbin/nologin
+    system: true
+    createhome: false
+  when: victoriametrics_system_user != "root"
+
+- name: configure /etc/security/limits.conf for {{ victoriametrics_system_user }} user
+  pam_limits:
+    domain: "{{ victoriametrics_system_user }}"
+    limit_type: "{{ item.limit_type }}"
+    limit_item: "{{ item.limit_item }}"
+    value: "{{ item.value }}"
+  loop:
+    - { limit_type: 'soft', limit_item: 'nofile', value: 65536 }
+    - { limit_type: 'hard', limit_item: 'nofile', value: 65536 }
+    - { limit_type: 'soft', limit_item: 'nproc', value: 65536 }
+    - { limit_type: 'hard', limit_item: 'nproc', value: 65536 }

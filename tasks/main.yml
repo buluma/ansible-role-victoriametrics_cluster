@@ -1,22 +1,49 @@
 ---
-### Checks
-- name: Import check tasks
-  import_tasks: check.yml
+# tasks file for VictoriaMetrics
+- include_tasks: preinstall.yml
+  args:
+    apply:
+      tags:
+        - install_vmselect
+        - install_vmstorage
+        - install_vminsert
+  tags:
+    - install_vmselect
+    - install_vmstorage
+    - install_vminsert
+    
+- name: Start deploy and configure vmselect nodes
+  include_tasks: install_vmselect.yml
+  args:
+    apply:
+      tags:
+        - install_vmselect
+  tags:
+    - install_vmselect
+  when: inventory_hostname in groups['vmselect']
 
-### Import vars
-- name: add OS specific variables
-  include_vars: '{{ vars_file }}'
-  with_first_found:
-    - files:
-        - '{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml'
-        - '{{ ansible_distribution }}.yml'
-        - '{{ ansible_os_family }}.yml'
-        - 'main.yml'
-      paths:
-        - 'vars'
-  loop_control:
-    loop_var: vars_file
+- name: Start deploy and configure vminsert nodes
+  include_tasks: install_vminsert.yml
+  args:
+    apply:
+      tags:
+        - install_vminsert
+  tags:
+    - install_vminsert
+  when: inventory_hostname in groups['vminsert']
 
-### Install
-- name: Import install tasks
-  import_tasks: install.yml
+- name: Start deploy and configure vmstorage nodes
+  include_tasks: install_vmstorage.yml
+  args:
+    apply:
+      tags:
+        - install_vmstorage
+  tags:
+    - install_vmstorage
+  when: inventory_hostname in groups['vmstorage']
+
+- include_tasks: configure.yml
+  tags:
+    - install_vmstorage
+    - install_vminsert
+    - install_vmselect

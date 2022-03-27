@@ -1,24 +1,22 @@
+# handlers file for VictoriaMetrics
 ---
-- name: Restart VictoriaMetrics service
-  service:
+- name: Restart victoriametrics-vminsert service
+  systemd:
     daemon_reload: true
-    name: victoriametrics
+    name: victoriametrics-vminsert
     state: restarted
 
-- name: Restart vminsert service
-  service:
+- name: Restart victoriametrics-vmselect service
+  systemd:
     daemon_reload: true
-    name: vminsert
+    name: victoriametrics-vmselect
     state: restarted
 
-- name: Restart vmselect service
-  service:
+- name: Restart victoriametrics-storage service
+  systemd:
     daemon_reload: true
-    name: vmselect
+    name: victoriametrics-storage
     state: restarted
 
-- name: Restart vmstorage service
-  service:
-    daemon_reload: true
-    name: vmstorage
-    state: restarted
+- name: reload sysctl.conf
+  command: /sbin/sysctl --system

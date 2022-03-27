@@ -10,4 +10,4 @@
       changed_when: false
 
   roles:
-    - role: apps_victoriametrics
+    - role: buluma.victoriametrics_cluster

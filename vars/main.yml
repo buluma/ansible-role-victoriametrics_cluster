@@ -1,5 +1,0 @@
----
-victoriametrics_repo_url: "https://github.com/VictoriaMetrics/VictoriaMetrics"
-victoriametrics_url: "{{ victoriametrics_repo_url }}/releases/download/v{{ victoriametrics_version }}/victoria-metrics-amd64-v{{ victoriametrics_version }}.tar.gz"
-victoriametrics_cluster_url: "{{ victoriametrics_repo_url }}/releases/download/v{{ victoriametrics_cluster_version }}/victoria-metrics-v{{ victoriametrics_cluster_version }}-cluster.tar.gz"
-victoriametrics_vmutils_url: "{{ victoriametrics_repo_url }}/releases/download/v{{ victoriametrics_vmutils_version }}/vmutils-amd64-v{{ victoriametrics_vmutils_version }}.tar.gz"

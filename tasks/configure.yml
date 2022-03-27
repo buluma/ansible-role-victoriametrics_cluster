@@ -1,24 +1,30 @@
 ---
-- name: Copy VictoriaMetrics systemd unit file
+- name: Create systemd unit file for vminsert nodes
   template:
-    src: victoriametrics.service.j2
-    dest: /etc/systemd/system/victoriametrics.service
+    src: victoriametrics-vminsert.service.j2
+    dest: /etc/systemd/system/victoriametrics-vminsert.service
     owner: root
     group: root
-    mode: 0640
-  notify: Restart VictoriaMetrics service
-  no_log: true
-  when: victoriametrics_install_standalone
+    mode: 0644
+  notify: Restart victoriametrics-vminsert service
+  when: inventory_hostname in groups['vminsert']
 
-- name: Copy cluster role systemd unit file
+- name: Create systemd unit file for vmselect nodes
   template:
-    src: "cluster.service.j2"
-    dest: "/etc/systemd/system/{{ item }}.service"
+    src: victoriametrics-vmselect.service.j2
+    dest: /etc/systemd/system/victoriametrics-vmselect.service
     owner: root
     group: root
-    mode: 0640
-  notify: Restart {{ item }} service
-  # no_log: True
-  with_items:
-    - "{{ victoriametrics_cluster_role }}"
-  when: victoriametrics_install_cluster
+    mode: 0644
+  notify: Restart victoriametrics-vmselect service
+  when: inventory_hostname in groups['vmselect']
+
+- name: Create systemd unit file for vmstorage nodes
+  template:
+    src: victoriametrics-storage.service.j2
+    dest: /etc/systemd/system/victoriametrics-storage.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart victoriametrics-storage service
+  when: inventory_hostname in groups['vmstorage']
