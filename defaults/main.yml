@@ -2,7 +2,7 @@
 debug_exec: true
 # Install options
 victoriametrics_install_standalone: true
-victoriametrics_install_cluster: false # todo
+victoriametrics_install_cluster: false  # todo
 victoriametrics_install_vmutils: true
 
 victoriametrics_cluster_role: [vminsert, vmselect, vmstorage]

@@ -18,7 +18,7 @@
     group: root
     mode: 0640
   notify: Restart {{ item }} service
-  #no_log: True
+  # no_log: True
   with_items:
     - "{{ victoriametrics_cluster_role }}"
   when: victoriametrics_install_cluster

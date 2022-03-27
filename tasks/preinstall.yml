@@ -70,7 +70,7 @@
   register: cl_role_binary
   with_items: "{{ victoriametrics_cluster_role }}"
 
-#- name: "DEBUG: show cluster role exists"
+# - name: "DEBUG: show cluster role exists"
 #  debug:
 #    msg: "{{ cl_role_binary.results }}"
 #  when:
