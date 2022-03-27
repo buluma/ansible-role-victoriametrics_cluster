@@ -105,6 +105,7 @@ custom_sysctl:
 
 - pip packages listed in [requirements.txt](https://github.com/buluma/ansible-role-victoriametrics_cluster/blob/main/requirements.txt).
 
+<!-- https://github.com/Slapper/ansible-victoriametrics-cluster-role -->
 ### Ansible inventory
 
 In order to use this role create your inventory file with these 3 groups :
