@@ -38,32 +38,6 @@ The machine needs to be prepared. In CI this is done using `molecule/default/pre
       changed_when: false
 ```
 
-## Ansible inventory
-
-In order to use this role create your inventory file with these 3 groups :
-
-- vmstorage ( for storage nodes )
-- vmselect ( for select nodes )
-- vminsert ( for insert nodes )
-
-More info here : https://github.com/VictoriaMetrics/VictoriaMetrics/tree/cluster#architecture-overview
-
-```
-[vmstorage]
-vmstorage01.example.com
-vmstorage02.example.com
-vmstorage03.example.com
-vmstorage04.example.com
-
-[vminsert]
-vminsert01.example.com
-vminsert02.example.com
-
-[vmselect]
-vmselect01.example.com
-vmselect02.example.com
-```
-
 ## [Role Variables](#role-variables)
 
 The default values for the variables are set in `defaults/main.yml`:
@@ -131,6 +105,31 @@ custom_sysctl:
 
 - pip packages listed in [requirements.txt](https://github.com/buluma/ansible-role-victoriametrics_cluster/blob/main/requirements.txt).
 
+### Ansible inventory
+
+In order to use this role create your inventory file with these 3 groups :
+
+- vmstorage ( for storage nodes )
+- vmselect ( for select nodes )
+- vminsert ( for insert nodes )
+
+More info here : https://github.com/VictoriaMetrics/VictoriaMetrics/tree/cluster#architecture-overview
+
+```
+[vmstorage]
+vmstorage01.example.com
+vmstorage02.example.com
+vmstorage03.example.com
+vmstorage04.example.com
+
+[vminsert]
+vminsert01.example.com
+vminsert02.example.com
+
+[vmselect]
+vmselect01.example.com
+vmselect02.example.com
+```
 
 ## [Context](#context)
 
