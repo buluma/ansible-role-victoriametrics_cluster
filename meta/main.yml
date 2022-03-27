@@ -14,9 +14,6 @@ galaxy_info:
     - name: "Debian"
       versions:
         - all
-    - name: "RedHat"
-      versions:
-        - all
     - name: "EL"
       versions:
         - all

@@ -1,67 +1,27 @@
 ---
+#
+# Ansible managed
+#
 dependency:
   name: galaxy
+  options:
+    role-file: requirements.yml
+    requirements-file: requirements.yml
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
 driver:
   name: docker
 platforms:
-  - name: ubuntu18-apps-victoriametrics
-    pre_build_image: true
-    image: lotusnoir/ansible_molecule_test_images:ubuntu18
-    docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
-    privileged: true
+  - name: "victoriametricscluster-${image:-fedora}-${tag:-latest}${TOX_ENVNAME}"
+    image: "${namespace:-buluma}/${image:-fedora}:${tag:-latest}"
+    command: /sbin/init
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  - name: ubuntu20-apps-victoriametrics
-    pre_build_image: true
-    image: lotusnoir/ansible_molecule_test_images:ubuntu20
-    docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
-    privileged: true
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    groups:
-      - python3
-  - name: debian10-apps-victoriametrics
-    pre_build_image: true
-    image: lotusnoir/ansible_molecule_test_images:debian10
-    docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
-    privileged: true
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  - name: debian11-apps-victoriametrics
-    pre_build_image: true
-    image: lotusnoir/ansible_molecule_test_images:debian11
-    docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
-    privileged: true
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  - name: centos7-apps-victoriametrics
-    pre_build_image: true
-    image: lotusnoir/ansible_molecule_test_images:centos7
-    docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
-    privileged: true
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  - name: rocky8-apps-victoriametrics
-    pre_build_image: true
-    image: lotusnoir/ansible_molecule_test_images:rocky8
-    docker_host: "${DOCKER_HOST:-unix://var/run/docker.sock}"
-    privileged: true
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    groups:
-      - python3
+    privileged: yes
+    pre_build_image: yes
 provisioner:
   name: ansible
-  playbooks:
-    prepare: prepare.yml
-    converge: playbook.yml
-  inventory:
-    group_vars:
-      python3:
-        ansible_python_interpreter: /usr/bin/python3
-    host_vars:
-      bullseye:
-        ansible_python_interpreter: "/usr/bin/python3.9"
-
 verifier:
-  name: goss
+  name: ansible
