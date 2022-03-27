@@ -3,6 +3,6 @@
 # Ansible managed
 #
 repository:
-  description: Ansible role for installing and configuring victoriametrics cluster
+  description: Role for installing VictoriaMetrics Cluster
   homepage: https://buluma.github.io/
-  topics: system, network, linux, monitoring, prometheus, node, exporter, victoriametrics, victoriametrics_cluster, ansible, molecule, tox, playbook, hacktoberfest
+  topics: victoriametrics, prometheus, ansible, molecule, tox, playbook, hacktoberfest
