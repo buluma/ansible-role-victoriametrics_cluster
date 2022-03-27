@@ -29,5 +29,5 @@ galaxy_info:
     - node
     - exporter
     - victoriametrics
-    - victoriametrics_cluster
+    - victoriametricscluster
 dependencies: []

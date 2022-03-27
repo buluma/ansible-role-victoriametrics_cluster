@@ -45,13 +45,13 @@ vmstorage_params: []
 
 # VM insert defaults
 vminsert_params:
-- param: replicationFactor
-  value: 1
+  - param: replicationFactor
+    value: 1
 
 # VM select defaults
 vmselect_params:
-- param: dedup.minScrapeInterval
-  value: "1ms"
+  - param: dedup.minScrapeInterval
+    value: "1ms"
 
 # interface to gather ip address
 if_name: "{{ vars['ansible_default_ipv4'].interface }}"

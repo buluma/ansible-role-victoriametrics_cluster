@@ -17,8 +17,8 @@
     group: root
     mode: 0755
   with_items:
-  - "{{ vmstorage_host_path }}"
-  - "{{ vm_conf_host_path }}"
+    - "{{ vmstorage_host_path }}"
+    - "{{ vm_conf_host_path }}"
 
 - name: "ensure {{ vm_role }} unit file"
   notify: "restart service {{ vm_role }}"
