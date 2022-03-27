@@ -1,3 +1,4 @@
+---
 galaxy_info:
   author: Michael Buluma
   role_name: victoriametrics_cluster
@@ -6,10 +7,10 @@ galaxy_info:
   license: Apache-2.0
   min_ansible_version: 2.4
   platforms:
-  - name: EL
-    versions:
-    - 7
-    - 8
+    - name: EL
+      versions:
+        - 7
+        - 8
   galaxy_tags:
     - victoriametrics
     - prometheus

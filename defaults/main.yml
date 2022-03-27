@@ -10,7 +10,7 @@ victoriametrics_system_group: "victoria"
 victoriametrics_vmstorage_data_dir: "/usr/local/bin/victoria-storage"
 victoriametrics_vmstorage_retention_period: "24"
 victoriametrics_vmstorage_memory_allowed_percent: "60"
-victoriametrics_vmstorage_service_args: "-search.maxUniqueTimeseries=3000000" 
+victoriametrics_vmstorage_service_args: "-search.maxUniqueTimeseries=3000000"
 
 # variables for vmselect nodes
 victoriametrics_vmselect_cache_dir: "/usr/local/bin/victoria-cache"
@@ -26,7 +26,7 @@ victoriametrics_vmstorage_listen_address: "{{ ansible_default_ipv4.address }}"
 victoriametrics_vmselect_listen_address: "{{ ansible_default_ipv4.address }}"
 victoriametrics_vminsert_listen_address: "{{ ansible_default_ipv4.address }}"
 
-#sysctl settings. more info :
+# sysctl settings. more info :
 custom_sysctl:
 # http://www.nateware.com/linux-network-tuning-for-2013.html
 # Increase Linux autotuning TCP buffer limits
@@ -53,5 +53,5 @@ custom_sysctl:
   - { name: net.ipv4.tcp_fin_timeout, value: 10 }
 # Disable TCP slow start on idle connections
   - { name: net.ipv4.tcp_slow_start_after_idle, value: 0 }
-# max open files https://medium.com/@muhammadtriwibowo/set-permanently-ulimit-n-open-files-in-ubuntu-4d61064429a  
+# max open files https://medium.com/@muhammadtriwibowo/set-permanently-ulimit-n-open-files-in-ubuntu-4d61064429a
   - { name: fs.file-max, value: 65535 }

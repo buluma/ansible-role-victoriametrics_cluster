@@ -30,7 +30,7 @@
     path: /usr/local/bin/victoriametrics/vmstorage-prod
   changed_when: false
   check_mode: false
-  register: victoriametrics_vmstorage_is_installed 
+  register: victoriametrics_vmstorage_is_installed
   when: inventory_hostname in groups['vmstorage']
 
 - name: Check current VictoriaMetrics vmselect version

@@ -42,4 +42,4 @@
     owner: "{{ victoriametrics_system_user }}"
     group: "{{ victoriametrics_system_group }}"
     state: link
-  notify: Restart victoriametrics-vminsert service  
+  notify: Restart victoriametrics-vminsert service
