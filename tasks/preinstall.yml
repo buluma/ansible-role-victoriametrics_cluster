@@ -1,0 +1,107 @@
+---
+# Add systemd options
+- name: Assert usage of systemd as an init system
+  assert:
+    that: ansible_service_mgr == 'systemd'
+    msg: "This role only works with systemd"
+
+- name: Get systemd version
+  command: systemd --version
+  changed_when: false
+  check_mode: false
+  register: __systemd_version
+
+- name: Set systemd version fact
+  set_fact:
+    victoriametrics_systemd_version: "{{ __systemd_version.stdout_lines[0].split(' ')[-1] }}"
+
+# Victoriametrics version
+- name: Check if VictoriaMetrics is installed
+  stat:
+    path: /usr/local/bin/victoria-metrics-prod
+  changed_when: false
+  check_mode: false
+  register: victoriametrics_binary
+
+- name: Check current VictoriaMetrics version
+  command: /usr/local/bin/victoria-metrics-prod --version
+  changed_when: false
+  failed_when: false
+  check_mode: false
+  register: victoriametrics_installed_version
+  when: victoriametrics_binary.stat.exists
+
+- name: "DEBUG: show victoria metrics version"
+  debug:
+    msg: "{{ victoriametrics_installed_version.stdout }}"
+  when:
+    - debug_exec
+    - victoriametrics_binary.stat.exists
+
+# Victoriametrics utils version
+- name: Check if vmutils are installed
+  stat:
+    path: /usr/local/bin/vmctl-prod
+  changed_when: false
+  check_mode: false
+  register: vmutils_binary
+
+- name: Check current vmutils version
+  command: /usr/local/bin/vmctl-prod --version
+  changed_when: false
+  failed_when: false
+  check_mode: false
+  register: vmutils_installed_version
+  when: vmutils_binary.stat.exists
+
+- name: "DEBUG: show vmutils version"
+  debug:
+    msg: "{{ vmutils_installed_version.stdout }}"
+  when:
+    - debug_exec
+    - vmutils_binary.stat.exists
+
+# Victoriametrics cluster version
+- name: Check if cluster role is installed
+  stat:
+    path: "/usr/local/bin/{{ item }}-prod"
+  changed_when: false
+  check_mode: false
+  register: cl_role_binary
+  with_items: "{{ victoriametrics_cluster_role }}"
+
+#- name: "DEBUG: show cluster role exists"
+#  debug:
+#    msg: "{{ cl_role_binary.results }}"
+#  when:
+#    - debug_exec
+
+- name: Check current role version
+  command: "/usr/local/bin/{{ item.item }}-prod --version"
+  changed_when: false
+  failed_when: false
+  check_mode: false
+  register: cl_role_installed_version
+  with_items: "{{ cl_role_binary.results }}"
+  when: item.stat.exists
+
+- name: "DEBUG: show cluster role version"
+  debug:
+    msg: "{{ cl_role_installed_version.results | json_query('[*].stdout') }}"
+  when:
+    - debug_exec
+
+- name: "set version facts"
+  set_fact:
+    cluster_role_version: "{{ cl_role_installed_version.results | json_query('[*].stdout') }}"
+
+- name: "set exists facts"
+  set_fact:
+    cluster_binary_exists: true
+  when: cluster_role_version|length == 0
+
+- name: "DEBUG: show "
+  debug:
+    var: cluster_binary_exists
+  when:
+    - debug_exec

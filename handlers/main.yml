@@ -1,21 +1,24 @@
 ---
-- name: restart service victoria-storage
-  systemd:
-    name: victoria-storage
-    daemon_reload: yes
-    enabled: yes
+- name: Restart VictoriaMetrics service
+  service:
+    daemon_reload: true
+    name: victoriametrics
     state: restarted
 
-- name: restart service victoria-insert
-  systemd:
-    name: victoria-insert
-    daemon_reload: yes
-    enabled: yes
+- name: Restart vminsert service
+  service:
+    daemon_reload: true
+    name: vminsert
     state: restarted
 
-- name: restart service victoria-select
-  systemd:
-    name: victoria-select
-    daemon_reload: yes
-    enabled: yes
+- name: Restart vmselect service
+  service:
+    daemon_reload: true
+    name: vmselect
+    state: restarted
+
+- name: Restart vmstorage service
+  service:
+    daemon_reload: true
+    name: vmstorage
     state: restarted

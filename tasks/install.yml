@@ -1,0 +1,134 @@
+---
+- import_tasks: preinstall.yml
+
+- name: Create VictoriaMetrics system group
+  group:
+    name: "{{ victoriametrics_system_group }}"
+    state: present
+    system: true
+  when: victoriametrics_system_group != "root"
+
+- name: Create VictoriaMetrics system user
+  user:
+    name: "{{ victoriametrics_system_user }}"
+    groups: "{{ victoriametrics_system_group }}"
+    append: true
+    shell: /usr/sbin/nologin
+    system: true
+    createhome: false
+  when: victoriametrics_system_user != "root"
+
+- name: Ensure existense of /usr/local/bin
+  file:
+    path: /usr/local/bin
+    state: directory
+    mode: 0755
+
+- name: Ensure existense of VictoriaMetrics storage directory
+  file:
+    path: "{{ victoriametrics_data_dir }}"
+    state: directory
+    mode: 0755
+    owner: "{{ victoriametrics_system_user }}"
+    group: "{{ victoriametrics_system_group }}"
+
+- name: "Install requierements"
+  package:
+    name: "ca-certificates"
+    state: present
+
+- when: victoriametrics_install_standalone
+  block:
+    - name: Delete existing VictoriaMetrics version if it's different.
+      file:
+        path: /usr/local/bin/victoria-metrics-prod
+        state: absent
+      when: victoriametrics_binary.stat.exists and
+             victoriametrics_version not in victoriametrics_installed_version.stdout
+
+    - name: Download and unarchive VictoriaMetrics release binary
+      unarchive:
+        src: "{{ victoriametrics_url }}"
+        dest: /usr/local/bin
+        mode: 0751
+        owner: "{{ victoriametrics_system_user }}"
+        group: "{{ victoriametrics_system_group }}"
+        remote_src: true
+      notify: Restart VictoriaMetrics service
+      when:
+        - not ansible_check_mode
+        - not victoriametrics_binary.stat.exists or
+          victoriametrics_version not in victoriametrics_installed_version.stdout
+
+- when: victoriametrics_install_vmutils
+  block:
+    - name: Delete existing vmutils version if it's different.
+      file:
+        path: "/usr/local/bin/{{ item }}"
+        state: absent
+      with_items:
+        - vmagent-prod
+        - vmalert-prod
+        - vmauth-prod
+        - vmbackup-prod
+        - vmctl-prod
+        - vmrestore-prod
+      when: vmutils_binary.stat.exists and
+            victoriametrics_vmutils_version not in vmutils_installed_version.stdout
+
+    - name: Download and unarchive vmutils release binary
+      unarchive:
+        src: "{{ victoriametrics_vmutils_url }}"
+        dest: /usr/local/bin
+        mode: 0751
+        owner: "{{ victoriametrics_system_user }}"
+        group: "{{ victoriametrics_system_group }}"
+        remote_src: true
+      when:
+        - not ansible_check_mode
+        - not vmutils_binary.stat.exists or
+          victoriametrics_vmutils_version not in vmutils_installed_version.stdout
+
+- when: victoriametrics_install_cluster
+  block:
+    - name: Delete existing cluster binaries version if it's different.
+      file:
+        path: "/usr/local/bin/{{ item }}"
+        state: absent
+      with_items:
+        - "{{ cl_role_binary.results }}"
+      when: item.stat.exists and
+            victoriametrics_cluster_version not in cluster_role_version
+
+    - name: Download and unarchive cluster release binary
+      unarchive:
+        src: "{{ victoriametrics_cluster_url }}"
+        dest: /usr/local/bin
+        mode: 0751
+        owner: "{{ victoriametrics_system_user }}"
+        group: "{{ victoriametrics_system_group }}"
+        remote_src: true
+      run_once: true
+      when:
+        - not ansible_check_mode
+        - not cluster_binary_exists or
+          victoriametrics_cluster_version not in cluster_role_version
+
+- import_tasks: configure.yml
+
+- name: "Ensure VictoriaMetrics service is enabled on boot"
+  systemd:
+    daemon_reload: true
+    name: victoriametrics
+    enabled: true
+    state: started
+  when: victoriametrics_install_standalone
+
+- name: "Ensure cluster service is enabled on boot"
+  systemd:
+    daemon_reload: true
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  with_items: "{{ victoriametrics_cluster_role }}"
+  when: victoriametrics_install_cluster
