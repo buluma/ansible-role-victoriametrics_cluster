@@ -46,7 +46,7 @@ The default values for the variables are set in `defaults/main.yml`:
 # defaults settings for all VictoriaMetrics nodes
 victoriametrics_repo_url: "https://github.com/VictoriaMetrics/VictoriaMetrics"
 victoriametrics_download_url: "{{ victoriametrics_repo_url }}/releases/download/{{ victoriametrics_version }}/victoria-metrics-amd64-{{ victoriametrics_version }}-cluster.tar.gz"
-victoriametrics_version: "v1.34.9"
+victoriametrics_version: "v1.53.1"
 victoriametrics_system_user: "victoria"
 victoriametrics_system_group: "victoria"
 
