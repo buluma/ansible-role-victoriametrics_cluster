@@ -1,0 +1,13 @@
+[vmstorage]
+vmstorage01.example.com
+vmstorage02.example.com
+vmstorage03.example.com
+vmstorage04.example.com
+
+[vminsert]
+vminsert01.example.com
+vminsert02.example.com
+
+[vmselect]
+vmselect01.example.com
+vmselect02.example.com
