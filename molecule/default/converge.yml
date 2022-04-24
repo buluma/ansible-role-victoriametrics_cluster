@@ -10,4 +10,4 @@
       changed_when: false
 
   roles:
-    - role: buluma.victoriametrics_cluster
+    - role: ansible-role-victoriametrics_cluster

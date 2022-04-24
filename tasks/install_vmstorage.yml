@@ -1,6 +1,6 @@
 ---
 - name: Ensure existense of /usr/local/bin/victoria-metrics-{{ victoriametrics_version }}
-  file:
+  ansible.builtin.file:
     path: /usr/local/bin/victoria-metrics-{{ victoriametrics_version }}
     state: directory
     owner: "{{ victoriametrics_system_user }}"
@@ -8,7 +8,7 @@
     mode: 0755
 
 - name: Ensure existense of /etc/systemd/system/victoriametrics-vmstorage.service.d
-  file:
+  ansible.builtin.file:
     path: /etc/systemd/system/victoriametrics-vmstorage.service.d
     state: directory
     owner: root
@@ -16,7 +16,7 @@
     mode: 0755
 
 - name: Copy overwrite.conf under /etc/systemd/system/victoriametrics-vmstorage.service.d/overwrite.conf
-  copy:
+  ansible.builtin.copy:
     src: overwrite.conf
     dest: /etc/systemd/system/victoriametrics-vmstorage.service.d/overwrite.conf
     owner: root
@@ -24,7 +24,7 @@
     mode: 0644
 
 - name: Ensure existense of {{ victoriametrics_vmstorage_data_dir }}
-  file:
+  ansible.builtin.file:
     path: "{{ victoriametrics_vmstorage_data_dir }}"
     state: directory
     owner: "{{ victoriametrics_system_user }}"
@@ -32,7 +32,7 @@
     mode: 0755
 
 - name: Download victoriametrics cluster version from {{ victoriametrics_download_url }}
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ victoriametrics_download_url }}"
     dest: "/usr/local/bin/victoria-metrics-{{ victoriametrics_version }}"
     owner: "{{ victoriametrics_system_user }}"
@@ -44,7 +44,7 @@
       victoriametrics_version not in victoriametrics_vmstorage_current_version.stdout
 
 - name: Create a symbolic link
-  file:
+  ansible.builtin.file:
     src: "/usr/local/bin/victoria-metrics-{{ victoriametrics_version }}"
     dest: "/usr/local/bin/victoriametrics"
     owner: "{{ victoriametrics_system_user }}"

@@ -1,16 +1,16 @@
 ---
 - name: Get systemd version
-  command: systemctl --version
+  ansible.builtin.command: systemctl --version
   changed_when: false
   check_mode: false
   register: __systemd_version
 
 - name: Set systemd version fact
-  set_fact:
+  ansible.builtin.set_fact:
     victoriametrics_systemd_version: "{{ __systemd_version.stdout_lines[0].split(' ')[-1] }}"
 
 - name: Check if VictoriaMetrics vmselect is installed
-  stat:
+  ansible.builtin.stat:
     path: /usr/local/bin/victoriametrics/vmselect-prod
   changed_when: false
   check_mode: false
@@ -18,7 +18,7 @@
   when: inventory_hostname in groups['vmselect']
 
 - name: Check if VictoriaMetrics vminsert is installed
-  stat:
+  ansible.builtin.stat:
     path: /usr/local/bin/victoriametrics/vminsert-prod
   changed_when: false
   check_mode: false
@@ -26,7 +26,7 @@
   when: inventory_hostname in groups['vminsert']
 
 - name: Check if VictoriaMetrics vmstorage is installed
-  stat:
+  ansible.builtin.stat:
     path: /usr/local/bin/victoriametrics/vmstorage-prod
   changed_when: false
   check_mode: false
@@ -34,7 +34,7 @@
   when: inventory_hostname in groups['vmstorage']
 
 - name: Check current VictoriaMetrics vmselect version
-  command: /usr/local/bin/victoriametrics/vmselect-prod -version
+  ansible.builtin.command: /usr/local/bin/victoriametrics/vmselect-prod -version
   changed_when: false
   failed_when: false
   check_mode: false
@@ -44,7 +44,7 @@
     - victoriametrics_vmselect_is_installed.stat.exists == True
 
 - name: Check current VictoriaMetrics vminsert version
-  command: /usr/local/bin/victoriametrics/vminsert-prod -version
+  ansible.builtin.command: /usr/local/bin/victoriametrics/vminsert-prod -version
   changed_when: false
   failed_when: false
   check_mode: false
@@ -54,7 +54,7 @@
     - victoriametrics_vminsert_is_installed.stat.exists == True
 
 - name: Check current VictoriaMetrics vmstorage version
-  command: /usr/local/bin/victoriametrics/vmstorage-prod -version
+  ansible.builtin.command: /usr/local/bin/victoriametrics/vmstorage-prod -version
   changed_when: false
   failed_when: false
   check_mode: false
@@ -64,7 +64,7 @@
     - victoriametrics_vmstorage_is_installed.stat.exists == True
 
 - name: Apply recommended sysctl settings
-  sysctl:
+  ansible.posix.sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
     state: present
@@ -77,14 +77,14 @@
     - reload sysctl.conf
 
 - name: Create VictoriaMetrics system group
-  group:
+  ansible.builtin.group:
     name: "{{ victoriametrics_system_group }}"
     state: present
     system: true
   when: victoriametrics_system_group != "root"
 
 - name: Create VictoriaMetrics system user
-  user:
+  ansible.builtin.user:
     name: "{{ victoriametrics_system_user }}"
     groups: "{{ victoriametrics_system_group }}"
     append: true
@@ -94,7 +94,7 @@
   when: victoriametrics_system_user != "root"
 
 - name: configure /etc/security/limits.conf for {{ victoriametrics_system_user }} user
-  pam_limits:
+  community.general.pam_limits:
     domain: "{{ victoriametrics_system_user }}"
     limit_type: "{{ item.limit_type }}"
     limit_item: "{{ item.limit_item }}"

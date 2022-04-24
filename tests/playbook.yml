@@ -3,4 +3,4 @@
   become: true
 
   roles:
-    - "buluma.victoriametrics_cluster"
+    - role: buluma.victoriametrics_cluster

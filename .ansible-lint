@@ -3,7 +3,6 @@
 # Ansible managed
 #
 exclude_paths:
-  - ./meta/preferences.yml
   - ./molecule/default/prepare.yml
   - ./molecule/default/converge.yml
   - ./molecule/default/verify.yml
@@ -11,8 +10,9 @@ exclude_paths:
   - ./.tox
   - ./.cache
 
-skip_list:
-  - literal-compare
-  - fqcn-builtins
-  - risky-file-permissions
-  - command-instead-of-module
+skip_list:  # or 'skip_list' to silence them completely
+  - command-instead-of-module  # Using command rather than module.
+  - command-instead-of-shell  # Use shell only when shell functionality is required.
+  - fqcn-builtins  # Use FQCN for builtin actions.
+  - literal-compare  # Don't compare to literal True/False.
+  - yaml  # Violations reported by yamllint.
