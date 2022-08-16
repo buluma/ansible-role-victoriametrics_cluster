@@ -28,3 +28,18 @@
     mode: 0644
   notify: Restart victoriametrics-storage service
   when: inventory_hostname in groups['vmstorage']
+
+- name: Ensure vminsert service is running as configured.
+  service:
+    name: victoriametrics-vminsert
+    enabled: "{{ victoriametrics_vminsert_service_enabled }}"
+
+- name: Ensure vmselect service is running as configured.
+  service:
+    name: victoriametrics-vmselect
+    enabled: "{{ victoriametrics_vmselect_service_enabled }}"
+
+- name: Ensure storage service is running as configured.
+  service:
+    name: victoriametrics-storage
+    enabled: "{{ victoriametrics_vmstorage_service_enabled }}"
