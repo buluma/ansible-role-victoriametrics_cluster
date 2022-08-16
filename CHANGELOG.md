@@ -8,6 +8,10 @@
 
 - Download victoriametrics cluster version: victoria-metrics-amd64-v1.34.9-cluster.tar.gz, HTTP Error 404: Not Found' [\#1](https://github.com/buluma/ansible-role-victoriametrics_cluster/issues/1)
 
+**Merged pull requests:**
+
+- Add enabled services [\#5](https://github.com/buluma/ansible-role-victoriametrics_cluster/pull/5) ([vandud](https://github.com/vandud))
+
 ## [v0.1.5](https://github.com/buluma/ansible-role-victoriametrics_cluster/tree/v0.1.5) (2022-03-31)
 
 [Full Changelog](https://github.com/buluma/ansible-role-victoriametrics_cluster/compare/v0.1.4...v0.1.5)
