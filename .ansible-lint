@@ -16,3 +16,4 @@ skip_list:  # or 'skip_list' to silence them completely
   - fqcn-builtins  # Use FQCN for builtin actions.
   - literal-compare  # Don't compare to literal True/False.
   - yaml  # Violations reported by yamllint.
+  - comments-indentation
