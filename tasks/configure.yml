@@ -21,7 +21,7 @@
 
 - name: Create systemd unit file for vmstorage nodes
   ansible.builtin.template:
-    src: victoriametrics-storage.service.j2
+    src: victoriametrics-vmstorage.service.j2
     dest: /etc/systemd/system/victoriametrics-vmstorage.service
     owner: root
     group: root
