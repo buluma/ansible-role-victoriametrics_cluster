@@ -10,6 +10,7 @@
 
 **Merged pull requests:**
 
+- fix vmstorage systemd service unit name [\#8](https://github.com/buluma/ansible-role-victoriametrics_cluster/pull/8) ([cesium147](https://github.com/cesium147))
 - Add enabled services [\#5](https://github.com/buluma/ansible-role-victoriametrics_cluster/pull/5) ([vandud](https://github.com/vandud))
 
 ## [v0.1.5](https://github.com/buluma/ansible-role-victoriametrics_cluster/tree/v0.1.5) (2022-03-31)
