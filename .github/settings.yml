@@ -5,4 +5,4 @@
 repository:
   description: Role for installing VictoriaMetrics Cluster
   homepage: https://buluma.github.io/
-  topics: victoriametrics, prometheus, ansible, molecule, tox, playbook, hacktoberfest
+  topics: victoriametrics, prometheus, ansible, molecule, tox, playbook
