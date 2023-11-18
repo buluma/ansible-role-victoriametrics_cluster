@@ -1,4 +1,4 @@
-# [victoriametrics_cluster](#victoriametrics_cluster)
+# [Ansible role victoriametrics_cluster](#victoriametrics_cluster)
 
 Role for installing VictoriaMetrics Cluster
 
