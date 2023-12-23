@@ -2,9 +2,9 @@
 
 Role for installing VictoriaMetrics Cluster
 
-|GitHub|GitLab|Downloads|Version|Issues|Pull Requests|
-|------|------|-------|-------|------|-------------|
-|[![github](https://github.com/buluma/ansible-role-victoriametrics_cluster/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/ansible-role-victoriametrics_cluster/actions/workflows/molecule.yml)|[![gitlab](https://gitlab.com/shadowwalker/ansible-role-victoriametrics_cluster/badges/master/pipeline.svg)](https://gitlab.com/shadowwalker/ansible-role-victoriametrics_cluster)|[![downloads](https://img.shields.io/ansible/role/d/4880)](https://galaxy.ansible.com/buluma/victoriametrics_cluster)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-victoriametrics_cluster.svg)](https://github.com/buluma/ansible-role-victoriametrics_cluster/releases/)|[![Issues](https://img.shields.io/github/issues/buluma/ansible-role-victoriametrics_cluster.svg)](https://github.com/buluma/ansible-role-victoriametrics_cluster/issues/)|[![PullRequests](https://img.shields.io/github/issues-pr-closed-raw/buluma/ansible-role-victoriametrics_cluster.svg)](https://github.com/buluma/ansible-role-victoriametrics_cluster/pulls/)|
+|GitHub|Version|Issues|Pull Requests|
+|------|-------|------|-------------|
+|[![github](https://github.com/buluma/ansible-role-victoriametrics_cluster/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/ansible-role-victoriametrics_cluster/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-victoriametrics_cluster.svg)](https://github.com/buluma/ansible-role-victoriametrics_cluster/releases/)|[![Issues](https://img.shields.io/github/issues/buluma/ansible-role-victoriametrics_cluster.svg)](https://github.com/buluma/ansible-role-victoriametrics_cluster/issues/)|[![PullRequests](https://img.shields.io/github/issues-pr-closed-raw/buluma/ansible-role-victoriametrics_cluster.svg)](https://github.com/buluma/ansible-role-victoriametrics_cluster/pulls/)|
 
 ## [Example Playbook](#example-playbook)
 
@@ -152,7 +152,6 @@ If you find issues, please register them in [GitHub](https://github.com/buluma/a
 
 [buluma](https://buluma.github.io/)
 
-Please consider [sponsoring me](https://github.com/sponsors/buluma).
 
 ### [Special Thanks](#special-thanks)
 
