@@ -1,10 +1,10 @@
-# [Ansible role victoriametrics_cluster](#victoriametrics_cluster)
+# Ansible role [victoriametrics_cluster](https://galaxy.ansible.com/ui/standalone/roles/buluma/victoriametrics_cluster/documentation)
 
 Role for installing VictoriaMetrics Cluster
 
-|GitHub|Version|Issues|Pull Requests|
-|------|-------|------|-------------|
-|[![github](https://github.com/buluma/ansible-role-victoriametrics_cluster/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/ansible-role-victoriametrics_cluster/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-victoriametrics_cluster.svg)](https://github.com/buluma/ansible-role-victoriametrics_cluster/releases/)|[![Issues](https://img.shields.io/github/issues/buluma/ansible-role-victoriametrics_cluster.svg)](https://github.com/buluma/ansible-role-victoriametrics_cluster/issues/)|[![PullRequests](https://img.shields.io/github/issues-pr-closed-raw/buluma/ansible-role-victoriametrics_cluster.svg)](https://github.com/buluma/ansible-role-victoriametrics_cluster/pulls/)|
+|GitHub|Version|Issues|Pull Requests|Downloads|
+|------|-------|------|-------------|---------|
+|[![github](https://github.com/buluma/ansible-role-victoriametrics_cluster/actions/workflows/molecule.yml/badge.svg)](https://github.com/buluma/ansible-role-victoriametrics_cluster/actions/workflows/molecule.yml)|[![Version](https://img.shields.io/github/release/buluma/ansible-role-victoriametrics_cluster.svg)](https://github.com/buluma/ansible-role-victoriametrics_cluster/releases/)|[![Issues](https://img.shields.io/github/issues/buluma/ansible-role-victoriametrics_cluster.svg)](https://github.com/buluma/ansible-role-victoriametrics_cluster/issues/)|[![PullRequests](https://img.shields.io/github/issues-pr-closed-raw/buluma/ansible-role-victoriametrics_cluster.svg)](https://github.com/buluma/ansible-role-victoriametrics_cluster/pulls/)|[![Ansible Role](https://img.shields.io/ansible/role/d/buluma/victoriametrics_cluster)](https://galaxy.ansible.com/ui/standalone/roles/buluma/victoriametrics_cluster/documentation)|
 
 ## [Example Playbook](#example-playbook)
 
@@ -146,13 +146,11 @@ If you find issues, please register them in [GitHub](https://github.com/buluma/a
 
 ## [License](#license)
 
-[Apache-2.0](https://github.com/buluma/ansible-role-victoriametrics_cluster/blob/master/LICENSE).
+[Apache-2.0](https://github.com/buluma/ansible-role-victoriametrics_cluster/blob/master/LICENSE)
 
 ## [Author Information](#author-information)
 
-[buluma](https://buluma.github.io/)
+[Shadow Walker](https://buluma.github.io/)
 
-
-### [Special Thanks](#special-thanks)
 
 Template inspired by [Robert de Bock](https://github.com/robertdebock)
