@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/buluma/ansible-role-victoriametrics_cluster/tree/HEAD)
+
+[Full Changelog](https://github.com/buluma/ansible-role-victoriametrics_cluster/compare/v0.1.6...HEAD)
+
+**Closed issues:**
+
+- Update buluma/todo-to-issue-action@v1.0.1 @buluma [\#14](https://github.com/buluma/ansible-role-victoriametrics_cluster/issues/14)
+
 ## [v0.1.6](https://github.com/buluma/ansible-role-victoriametrics_cluster/tree/v0.1.6) (2022-10-17)
 
 [Full Changelog](https://github.com/buluma/ansible-role-victoriametrics_cluster/compare/v0.1.5...v0.1.6)
