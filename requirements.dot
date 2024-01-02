@@ -1,0 +1,7 @@
+digraph PhiloDilemma {
+  label = "Michael Buluma" ;
+  overlap=false
+  {
+    "victoriametrics_cluster" [fillcolor=yellow style=filled penwidth=3]
+  }
+}
